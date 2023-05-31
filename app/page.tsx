@@ -1,39 +1,37 @@
 export default function Home() {
   return (
     <>
-      <div className="grid min-h-screen gap-10 bg-slate-400 px-20 py-20 ">
-        <div className="rounded-3xl bg-white p-6 shadow-xl">
-          <span className="text-2xl font-semibold">Select Item</span>
+      <div className="grid min-h-screen gap-10 bg-slate-400 px-20 py-20 lg:grid-cols-2 xl:grid-cols-3 xl:place-content-center">
+        <div className="flex flex-col justify-between rounded-3xl bg-white p-6 shadow-xl dark:bg-gray-800">
+          <span className="text-2xl font-semibold dark:text-white">
+            Select Item
+          </span>
           <ul>
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex justify-between odd:bg-yellow-500">
-                <span className="text-gray-500">Grey Chair</span>
-                <span className="font-semibold">$19</span>
+            {[1, 2].map((i) => (
+              <div key={i} className="flex justify-between ">
+                <span className="text-gray-500 dark:text-gray-300">
+                  Grey Chair
+                </span>
+                <span className="font-semibold dark:text-white">$19</span>
               </div>
             ))}
           </ul>
-          <ul>
-            {["a", "B", "c", ""].map((c, i) => (
-              <li className="bg-red-500 py-3 empty:hidden" key={i}>
-                {c}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-2 flex justify-between border-t-2 border-dashed pt-2">
+
+          <div className="mt-2 flex justify-between border-t-2 border-dashed pt-2 dark:text-gray-300">
             <span>Total</span>
-            <span className="font-semibold">$38</span>
+            <span className="font-semibold dark:text-white">$38</span>
           </div>
           <button
             className="mx-auto mt-5 w-3/4 rounded-xl
           bg-blue-500 p-3 text-center text-white
-          hover:bg-teal-500 hover:text-black focus:text-red-500 active:bg-yellow-500
+          hover:bg-teal-500 hover:text-black focus:text-red-500 active:bg-yellow-500 dark:border dark:border-white dark:bg-black dark:hover:bg-gray-900 dark:hover:text-white
          "
           >
             Checkout
           </button>
         </div>
-        <div className="group overflow-hidden rounded-3xl bg-white shadow-xl">
-          <div className="bg-blue-500 p-6 pb-14">
+        <div className="group overflow-hidden rounded-3xl bg-white shadow-xl ">
+          <div className="bg-blue-500 p-14 xl:pb-40 portrait:bg-indigo-400 landscape:bg-teal-400">
             <span className="text-2xl text-white">Profile</span>
           </div>
           <div className="relative -top-5 rounded-3xl bg-white p-6">
@@ -54,7 +52,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="rounded-3xl bg-white p-6 shadow-xl">
+        <div className=" rounded-3xl bg-white p-6 shadow-xl lg:col-span-2 xl:col-span-1">
           <div className="mb-5 flex items-center justify-between">
             <span>⬅️</span>
             <div className="space-x-3">
@@ -91,21 +89,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <form className="flex flex-col space-y-2 p-5">
-        <input
-          type="text"
-          required
-          placeholder="Username"
-          className="peer rounded-lg border border-gray-400 p-1"
-        />
-        <span className="hidden peer-invalid:block peer-invalid:bg-red-500">
-          This input is invaild
-        </span>
-        <span className="hidden peer-valid:block peer-valid:bg-teal-500">
-          This input is vaild
-        </span>
-        <input type="submit" value="Login" className="bg-white" />
-      </form>
     </>
   );
 }
