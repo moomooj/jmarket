@@ -13,7 +13,7 @@ export default function Home() {
         </ul>
         <ul>
           {["a", "B", "c", ""].map((c, i) => (
-            <li className="bg-red-500 py-2 empty:hidden" key={i}>
+            <li className="bg-red-500 py-3 empty:hidden" key={i}>
               {c}
             </li>
           ))}
