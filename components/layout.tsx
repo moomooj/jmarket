@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface HeaderProps {
   title?: string;
@@ -21,19 +21,15 @@ export default function Layout({
   hasTabBar,
 }: HeaderProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const goBack = () => {
     router.back();
   };
   return (
     <div>
-      <div
-        className={cls(
-          !canGoBack ? "justify-center" : "",
-          "fixed top-0 flex w-full max-w-lg items-center border-b bg-white py-3 text-lg font-medium text-gray-800"
-        )}
-      >
+      <div className="fixed top-0 flex h-12 w-full max-w-xl items-center justify-center  border-b bg-white px-10 text-lg  font-medium text-gray-800">
         {canGoBack ? (
-          <button onClick={goBack}>
+          <button onClick={goBack} className="absolute left-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -50,13 +46,22 @@ export default function Layout({
             </svg>
           </button>
         ) : null}
-        {title ? <span>{title}</span> : null}
+        {title ? (
+          <span className={cls(canGoBack ? "mx-auto" : "", "")}>{title}</span>
+        ) : null}
       </div>
       <div className={cls("pt-16", hasTabBar ? "pb-20" : "")}>{children}</div>
       {hasTabBar ? (
         <nav className="fixed bottom-0 flex w-full max-w-xl justify-between border-t bg-white px-10 pb-5 pt-3 text-xs text-gray-700">
           <Link href="/">
-            <div className="flex flex-col items-center space-y-2">
+            <div
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                pathname === "/"
+                  ? "text-orange-500"
+                  : "transition-colors hover:text-gray-500"
+              )}
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -75,7 +80,14 @@ export default function Layout({
             </div>
           </Link>
           <Link href="/community">
-            <div className="flex flex-col items-center space-y-2">
+            <div
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                pathname === "/community"
+                  ? "text-orange-500"
+                  : "transition-colors hover:text-gray-500"
+              )}
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -90,11 +102,18 @@ export default function Layout({
                   d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
                 ></path>
               </svg>
-              <span>동내생활</span>
+              <span>동네생활</span>
             </div>
           </Link>
           <Link href="/chats">
-            <div className="flex flex-col items-center space-y-2">
+            <div
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                pathname === "/chats"
+                  ? "text-orange-500"
+                  : "transition-colors hover:text-gray-500"
+              )}
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -112,8 +131,15 @@ export default function Layout({
               <span>채팅</span>
             </div>
           </Link>
-          <Link href="/streams">
-            <div className="flex flex-col items-center space-y-2">
+          <Link href="/live">
+            <div
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                pathname === "/live"
+                  ? "text-orange-500"
+                  : "transition-colors hover:text-gray-500"
+              )}
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -132,7 +158,14 @@ export default function Layout({
             </div>
           </Link>
           <Link href="/profile">
-            <div className="flex flex-col items-center space-y-2">
+            <div
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                pathname === "/profile"
+                  ? "text-orange-500"
+                  : "transition-colors hover:text-gray-500"
+              )}
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
