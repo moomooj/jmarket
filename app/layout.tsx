@@ -6,8 +6,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
-      <body>{children}</body>
+    <html>
+      <head></head>
+      <body>
+        <div className="mx-auto w-full max-w-lg">{children}</div>
+      </body>
     </html>
   );
 }
