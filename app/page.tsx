@@ -1,6 +1,7 @@
 import Layout from "@/components/layout";
 import FloatingButton from "@/components/floating-button";
 import Item from "@/components/item";
+
 export default function Home() {
   return (
     <Layout title="홈" hasTabBar>
@@ -15,7 +16,7 @@ export default function Home() {
             hearts={1}
           />
         ))}
-        <button className="fixed bottom-24 right-5 rounded-full bg-orange-400 p-4 text-white shadow-xl transition-colors hover:bg-orange-500">
+        <FloatingButton href="/items/upload">
           <svg
             className="h-6 w-6"
             xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +32,7 @@ export default function Home() {
               d="M12 6v6m0 0v6m0-6h6m-6 0H6"
             />
           </svg>
-        </button>
+        </FloatingButton>
       </div>
     </Layout>
   );
