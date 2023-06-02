@@ -1,7 +1,7 @@
 import Layout from "@/components/layout";
 import type { NextPage } from "next";
-
 import Item from "@/components/item";
+
 const Loved: NextPage = () => {
   return (
     <Layout title="관심목록" canGoBack>
