@@ -1,18 +1,22 @@
 "use client";
 import Layout from "@/components/layout";
-import { cls } from "@/libs/utils";
+import { cls } from "@/libs/client/utils";
 import { useState } from "react";
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { useForm } from "react-hook-form";
+import useMutation from "@/libs/client/useMutation";
 interface EnterForm {
   email?: string;
   phone?: string;
 }
 
 export default function Enter() {
+  const [enter, { loading, data, error }] = useMutation("/api/users/enter");
   const { register, reset, handleSubmit } = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
+  const [submitting, setSubmitting] = useState(false);
+
   const onEmailClick = () => {
     reset();
     setMethod("email");
@@ -23,10 +27,7 @@ export default function Enter() {
   };
 
   const onVaild = (data: EnterForm) => {
-    fetch("/api/users/enter", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+    enter(data);
   };
 
   return (
@@ -86,7 +87,7 @@ export default function Enter() {
             ) : null}
             {method === "email" ? <Button text={"Get login link"} /> : null}
             {method === "phone" ? (
-              <Button text={"Get one-time password"} />
+              <Button text={submitting ? "Loading" : "Get one-time password"} />
             ) : null}
           </form>
           <div className="mt-8">
