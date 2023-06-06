@@ -15,7 +15,6 @@ export default function Enter() {
   const [enter, { loading, data, error }] = useMutation("/api/users/enter");
   const { register, reset, handleSubmit } = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const [submitting, setSubmitting] = useState(false);
 
   const onEmailClick = () => {
     reset();
@@ -26,10 +25,11 @@ export default function Enter() {
     setMethod("phone");
   };
 
-  const onVaild = (data: EnterForm) => {
-    enter(data);
+  const onValid = (validForm: EnterForm) => {
+    if (loading) return;
+    enter(validForm);
   };
-
+  console.log(loading, data, error);
   return (
     <Layout canGoBack>
       <div className="mt-16 px-4">
@@ -63,7 +63,7 @@ export default function Enter() {
             </div>
           </div>
           <form
-            onSubmit={handleSubmit(onVaild)}
+            onSubmit={handleSubmit(onValid)}
             className="mt-8 flex flex-col space-y-4"
           >
             {method === "email" ? (
@@ -85,9 +85,11 @@ export default function Enter() {
                 required
               />
             ) : null}
-            {method === "email" ? <Button text={"Get login link"} /> : null}
+            {method === "email" ? (
+              <Button text={loading ? "Loading" : "Get login link"} />
+            ) : null}
             {method === "phone" ? (
-              <Button text={submitting ? "Loading" : "Get one-time password"} />
+              <Button text={loading ? "Loading" : "Get one-time password"} />
             ) : null}
           </form>
           <div className="mt-8">
