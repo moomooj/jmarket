@@ -55,12 +55,13 @@ export async function POST(req: Request): Promise<NextResponse<ResponseBody>> {
       console.error(err.response.data);
     });
   }
+
   if (email) {
     const mailOptions = {
       from: `${process.env.MAIL_ID}@naver.com`,
       to: email,
-      subject: "Nomad Carrot Authentication Email",
-      text: `Authentication Code : ${payload}`,
+      subject: "Jmarket 인증번호 메일",
+      html: `<h1>인증번호는 ${payload} 입니다.</h1>`,
     };
 
     const result = await smtpTransport.sendMail(

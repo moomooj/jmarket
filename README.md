@@ -5,11 +5,4 @@
 prisma
 react-hook-form
 tailwindcss
-
-### /enter
-
-(email or phone) --->
-api --->
-User 존재 확인 ? 회원가입 : 로그인 --->
-Token-User(random Number)
----> (random Number) ---> SMS ---> phone (Twilio)
+nodemailer
