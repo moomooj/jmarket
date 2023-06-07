@@ -1,11 +1,12 @@
 "use client";
 import Layout from "@/components/layout";
 import { cls } from "@/libs/client/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { useForm } from "react-hook-form";
 import useMutation from "@/libs/client/useMutation";
+import { useRouter } from "next/navigation";
 interface EnterForm {
   email?: string;
   phone?: string;
@@ -48,6 +49,12 @@ export default function Enter() {
     confirmToken(validForm);
     //  토큰 로직 제작 예정
   };
+  const router = useRouter();
+  useEffect(() => {
+    if (tokenData?.ok) {
+      router.push("/");
+    }
+  }, [router, tokenData]);
 
   return (
     <Layout canGoBack>

@@ -19,7 +19,11 @@ export default function useMutation<T = any>(
 
   function mutation(data: any) {
     setSate((prev) => ({ ...prev, loading: true }));
-    fetch(url, { method: "POST", body: JSON.stringify(data) })
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    })
       .then((response) => response.json().catch(() => {}))
       .then((data) => setSate((prev) => ({ ...prev, data })))
       .catch((error) => setSate((prev) => ({ ...prev, error })))

@@ -6,3 +6,4 @@ prisma
 react-hook-form
 tailwindcss
 nodemailer
+iron-session
