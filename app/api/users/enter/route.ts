@@ -26,6 +26,7 @@ export async function POST(req: Request): Promise<NextResponse<ResponseBody>> {
   });
 
   if (phone) {
+    /* 테스트를 위한 주석처리
     const signature = makeSignature();
 
     const body = {
@@ -53,10 +54,11 @@ export async function POST(req: Request): Promise<NextResponse<ResponseBody>> {
       { method: "POST", body: JSON.stringify(body), headers }
     ).catch((err) => {
       console.error(err.response.data);
-    });
+    });*/
   }
 
   if (email) {
+    /* 테스트를 위한 주석처리
     const mailOptions = {
       from: `${process.env.MAIL_ID}@naver.com`,
       to: email,
@@ -74,7 +76,7 @@ export async function POST(req: Request): Promise<NextResponse<ResponseBody>> {
         }
       }
     );
-    smtpTransport.close();
+    smtpTransport.close();*/
   }
 
   return NextResponse.json({ ok: true }, { status: 200 });
