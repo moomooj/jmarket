@@ -1,4 +1,5 @@
 import { ResponseBody, client } from "@/libs/server/client";
+import smtpTransport from "@/libs/server/email";
 import { makeSignature } from "@/libs/server/sens";
 import { NextResponse, NextRequest } from "next/server";
 
@@ -53,6 +54,26 @@ export async function POST(req: Request): Promise<NextResponse<ResponseBody>> {
     ).catch((err) => {
       console.error(err.response.data);
     });
+  }
+  if (email) {
+    const mailOptions = {
+      from: `${process.env.MAIL_ID}@naver.com`,
+      to: email,
+      subject: "Nomad Carrot Authentication Email",
+      text: `Authentication Code : ${payload}`,
+    };
+
+    const result = await smtpTransport.sendMail(
+      mailOptions,
+      (error, responses) => {
+        if (error) {
+          return null;
+        } else {
+          return null;
+        }
+      }
+    );
+    smtpTransport.close();
   }
 
   return NextResponse.json({ ok: true }, { status: 200 });
