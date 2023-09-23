@@ -5,17 +5,17 @@ interface InputProps {
   name: string;
   kind?: "text" | "phone" | "price";
   type: string;
+  required?: boolean;
   register: UseFormRegisterReturn;
-  required: boolean;
 }
 
 export default function Input({
   label,
   name,
   kind = "text",
-  register,
   type,
   required,
+  register,
 }: InputProps) {
   return (
     <div>
@@ -29,8 +29,8 @@ export default function Input({
         <div className="relative flex items-center  rounded-md shadow-sm">
           <input
             id={name}
-            required={required}
             {...register}
+            required={required}
             type={type}
             className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
           />
@@ -43,8 +43,8 @@ export default function Input({
           </div>
           <input
             id={name}
-            required={required}
             {...register}
+            required={required}
             type={type}
             className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 pl-7 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
           />
@@ -60,8 +60,8 @@ export default function Input({
           </span>
           <input
             id={name}
-            required={required}
             {...register}
+            required={required}
             type={type}
             className="w-full appearance-none rounded-md rounded-l-none border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
           />
