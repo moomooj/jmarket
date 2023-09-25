@@ -18,6 +18,7 @@ model User {
   updatedAt DateTime  @updatedAt
   tokens    Token[]
   Products  Product[]
+  favs      Fav[]
 }
 
 model Token {
@@ -41,6 +42,20 @@ model Product {
   name        String
   price       Int
   description String   @db.MediumText
+  favs        Fav[]
 
   @@index([userId])
+}
+
+model Fav {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  cratedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([productId])
 }
