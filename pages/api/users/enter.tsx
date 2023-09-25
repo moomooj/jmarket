@@ -1,7 +1,8 @@
-import { client } from "@/libs/server/client";
-import withHandler, { ResponseType } from "@/libs/server/withHandler";
+import { client } from "@libs/server/client";
+import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
-import { makeSignature } from "@/libs/server/sens";
+import { makeSignature } from "@libs/server/sens";
+import smtpTransport from "@libs/server/email";
 
 async function handler(
   req: NextApiRequest,
@@ -30,6 +31,7 @@ async function handler(
   });
 
   if (phone) {
+    /*
     const signature = makeSignature();
 
     const body = {
@@ -57,10 +59,30 @@ async function handler(
       { method: "POST", body: JSON.stringify(body), headers }
     ).catch((err) => {
       console.error(err.response.data);
-    });
+    });*/
+  } else if (email) {
+    /*
+    const mailOptions = {
+      from: `${process.env.MAIL_ID}@naver.com`,
+      to: email,
+      subject: "Nomad Carrot Authentication Email",
+      text: `Authentication Code : ${payload}`,
+    };
+
+    const result = await smtpTransport.sendMail(
+      mailOptions,
+      (error, responses) => {
+        if (error) {
+          return null;
+        } else {
+          return null;
+        }
+      }
+    );
+    smtpTransport.close();*/
   }
 
   return res.json({ ok: true });
 }
 
-export default withHandler("POST", handler);
+export default withHandler({ method: "POST", handler, isPrivate: false });
