@@ -1,8 +1,83 @@
 import type { NextPage } from "next";
 import Layout from "@components/layout";
 import TextArea from "@components/textarea";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import { Answer, Post, User } from "@prisma/client";
+import Link from "next/link";
+import useMutation from "@libs/client/useMutation";
+import { cls } from "@libs/client/utils";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+
+interface AnswerWithUser extends Answer {
+  user: User;
+}
+
+interface PostWithUser extends Post {
+  user: User;
+  _count: { answer: number; wondering: number };
+  answers: AnswerWithUser[];
+}
+interface CommunityPostResponse {
+  ok: boolean;
+  post: PostWithUser;
+  isWondering: boolean;
+}
+
+interface AnswerForm {
+  answer: string;
+}
+
+interface AnswerResponse {
+  ok: boolean;
+  response: Answer;
+}
 
 const CommunityPostDetail: NextPage = () => {
+  const router = useRouter();
+  const { register, handleSubmit, reset } = useForm<AnswerForm>();
+  const { data, mutate } = useSWR<CommunityPostResponse>(
+    router.query.id ? `/api/posts/${router.query.id}` : null
+  );
+  const [wonder, { loading }] = useMutation(
+    `/api/posts/${router.query.id}/wonder`
+  );
+  const [sendAnswer, { data: answerData, loading: answerLoading }] =
+    useMutation<AnswerResponse>(`/api/posts/${router.query.id}/answers`);
+  const onWonderClick = () => {
+    if (!data) return;
+    mutate(
+      {
+        ...data,
+        post: {
+          ...data?.post,
+          _count: {
+            ...data?.post._count,
+            wondering: data.isWondering
+              ? data?.post._count.wondering - 1
+              : data?.post._count.wondering + 1,
+          },
+        },
+        isWondering: !data.isWondering,
+      },
+      false
+    );
+    if (!loading) {
+      wonder({});
+    }
+  };
+
+  const onVaild = (from: AnswerForm) => {
+    if (answerLoading) return;
+    sendAnswer(from);
+  };
+  useEffect(() => {
+    if (answerData && answerData.ok) {
+      reset();
+    }
+  }, [answerData, reset]);
+  console.log(data);
   return (
     <Layout canGoBack>
       <div>
@@ -11,20 +86,31 @@ const CommunityPostDetail: NextPage = () => {
         </span>
         <div className="mb-3 flex cursor-pointer items-center space-x-3  border-b px-4 pb-3">
           <div className="h-10 w-10 rounded-full bg-slate-300" />
+
           <div>
-            <p className="text-sm font-medium text-gray-700">Steve Jebs</p>
-            <p className="text-xs font-medium text-gray-500">
-              View profile &rarr;
+            <p className="text-sm font-medium text-gray-700">
+              {data?.post?.user?.name}
             </p>
+            <Link href={`/users/profiles/${data?.post?.user?.id}`}>
+              <p className="text-xs font-medium text-gray-500">
+                View profile &rarr;
+              </p>
+            </Link>
           </div>
         </div>
         <div>
           <div className="mt-2 px-4 text-gray-700">
-            <span className="font-medium text-orange-500">Q.</span> What is the
-            best mandu restaurant?
+            <span className="font-medium text-orange-500">Q. </span>
+            {data?.post?.question}
           </div>
           <div className="mt-3 flex w-full space-x-5 border-b-[2px] border-t px-4 py-2.5  text-gray-700">
-            <span className="flex items-center space-x-2 text-sm">
+            <button
+              onClick={onWonderClick}
+              className={cls(
+                "flex items-center space-x-2 text-sm",
+                data?.isWondering ? "text-green-500" : ""
+              )}
+            >
               <svg
                 className="h-4 w-4"
                 fill="none"
@@ -39,8 +125,8 @@ const CommunityPostDetail: NextPage = () => {
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <span>궁금해요 1</span>
-            </span>
+              <span>궁금해요 {data?.post?._count?.wondering}</span>
+            </button>
             <span className="flex items-center space-x-2 text-sm">
               <svg
                 className="h-4 w-4"
@@ -56,34 +142,37 @@ const CommunityPostDetail: NextPage = () => {
                   d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                 ></path>
               </svg>
-              <span>답변 1</span>
+              <span>답변 {data?.post?._count?.answer}</span>
             </span>
           </div>
         </div>
         <div className="my-5 space-y-5 px-4">
-          <div className="flex items-start space-x-3">
-            <div className="h-8 w-8 rounded-full bg-slate-200" />
-            <div>
-              <span className="block text-sm font-medium text-gray-700">
-                Steve Jebs
-              </span>
-              <span className="block text-xs text-gray-500 ">2시간 전</span>
-              <p className="mt-2 text-gray-700">
-                The best mandu restaurant is the one next to my house.
-              </p>
+          {data?.post?.answers?.map((answer) => (
+            <div className="flex items-start space-x-3" key={answer.id}>
+              <div className="h-8 w-8 rounded-full bg-slate-200" />
+              <div>
+                <span className="block text-sm font-medium text-gray-700">
+                  {answer.user.name}
+                </span>
+                <span className="block text-xs text-gray-500 ">
+                  {`${String(answer.cratedAt)}`}
+                </span>
+                <p className="mt-2 text-gray-700">{answer.answer}</p>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
-        <div className="px-4">
+        <form onSubmit={handleSubmit(onVaild)} className="px-4">
           <TextArea
             name="description"
-            placeholder="Answer this question!"
+            placeholder="Answer this question!!"
+            register={register("answer", { required: true, minLength: 10 })}
             required
           />
           <button className="mt-2 w-full rounded-md border border-transparent bg-orange-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ">
-            Reply
+            {answerLoading ? "Loadin.." : "Reply"}
           </button>
-        </div>
+        </form>
       </div>
     </Layout>
   );

@@ -21,7 +21,7 @@ interface ItemDetailResponse {
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-  const { data, mutate } = useSWR<ItemDetailResponse>(
+  const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
 
@@ -30,7 +30,8 @@ const ItemDetail: NextPage = () => {
   );
   const onFavClick = () => {
     if (!data) return;
-    mutate({ ...data, isLiked: !data?.isLiked }, false);
+    boundMutate({ ...data, isLiked: !data?.isLiked }, false);
+    //mutate("api/users/me", (prev: any) => {ok: !prev.ok; }, false);
     if (!loading) {
       toggleFav({});
     }
@@ -82,9 +83,9 @@ const ItemDetail: NextPage = () => {
                     fill="currentColor"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                      clip-rule="evenodd"
+                      clipRule="evenodd"
                     />
                   </svg>
                 ) : (
@@ -111,7 +112,7 @@ const ItemDetail: NextPage = () => {
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Similar items</h2>
           <div className=" mt-6 grid grid-cols-2 gap-4">
-            {data?.relatedProducts.map((product) => (
+            {data?.relatedProducts?.map((product) => (
               <Link href={`/products/${product.id}`} key={product.id}>
                 <div>
                   <div className="mb-4 h-56 w-full bg-slate-300" />
