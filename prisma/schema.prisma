@@ -9,19 +9,21 @@ datasource db {
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
-  phone     String?     @unique
-  email     String?     @unique
-  name      String
-  avatar    String?
-  cratedAt  DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  tokens    Token[]
-  Products  Product[]
-  favs      Fav[]
-  posts     Post[]
-  answers   Answer[]
-  wondering Wondering[]
+  id              Int         @id @default(autoincrement())
+  phone           String?     @unique
+  email           String?     @unique
+  name            String
+  avatar          String?
+  cratedAt        DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  tokens          Token[]
+  Products        Product[]
+  favs            Fav[]
+  posts           Post[]
+  answers         Answer[]
+  wondering       Wondering[]
+  writtenReviews  Review[]    @relation(name: "writtenReviews")
+  receivedReviews Review[]    @relation(name: "receivedReviews")
 }
 
 model Token {
@@ -70,6 +72,8 @@ model Post {
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   question  String      @db.MediumText
+  latitude  Float?
+  longitude Float?
   answers   Answer[]
   wondering Wondering[]
 
@@ -101,4 +105,18 @@ model Wondering {
 
   @@index([userId])
   @@index([postId])
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  cratedAt    DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  review      String   @db.MediumText
+  cratedBy    User     @relation(name: "writtenReviews", fields: [cratedById], references: [id], onDelete: Cascade)
+  cratedById  Int
+  cratedFor   User     @relation(name: "receivedReviews", fields: [cratedForId], references: [id], onDelete: Cascade)
+  cratedForId Int
+
+  @@index([cratedById])
+  @@index([cratedForId])
 }

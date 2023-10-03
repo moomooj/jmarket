@@ -16,7 +16,7 @@ interface AnswerWithUser extends Answer {
 
 interface PostWithUser extends Post {
   user: User;
-  _count: { answer: number; wondering: number };
+  _count: { answers: number; wondering: number };
   answers: AnswerWithUser[];
 }
 interface CommunityPostResponse {
@@ -75,9 +75,10 @@ const CommunityPostDetail: NextPage = () => {
   useEffect(() => {
     if (answerData && answerData.ok) {
       reset();
+      mutate();
     }
-  }, [answerData, reset]);
-  console.log(data);
+  }, [answerData, mutate, reset]);
+
   return (
     <Layout canGoBack>
       <div>
@@ -142,7 +143,7 @@ const CommunityPostDetail: NextPage = () => {
                   d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                 ></path>
               </svg>
-              <span>답변 {data?.post?._count?.answer}</span>
+              <span>답변 {data?.post?._count?.answers}</span>
             </span>
           </div>
         </div>
@@ -170,7 +171,7 @@ const CommunityPostDetail: NextPage = () => {
             required
           />
           <button className="mt-2 w-full rounded-md border border-transparent bg-orange-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ">
-            {answerLoading ? "Loadin.." : "Reply"}
+            {answerLoading ? "Loading.." : "Reply"}
           </button>
         </form>
       </div>
