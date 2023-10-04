@@ -14,7 +14,7 @@ model User {
   email           String?     @unique
   name            String
   avatar          String?
-  cratedAt        DateTime    @default(now())
+  createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   tokens          Token[]
   Products        Product[]
@@ -32,7 +32,7 @@ model Token {
   id        Int      @id @default(autoincrement())
   payload   String   @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cratedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    Int
 
@@ -41,7 +41,7 @@ model Token {
 
 model Product {
   id          Int        @id @default(autoincrement())
-  cratedAt    DateTime   @default(now())
+  createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
@@ -58,7 +58,7 @@ model Product {
 
 model Post {
   id        Int         @id @default(autoincrement())
-  cratedAt  DateTime    @default(now())
+  createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
@@ -73,7 +73,7 @@ model Post {
 
 model Answer {
   id        Int      @id @default(autoincrement())
-  cratedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
@@ -87,7 +87,7 @@ model Answer {
 
 model Wondering {
   id        Int      @id @default(autoincrement())
-  cratedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
@@ -99,18 +99,18 @@ model Wondering {
 }
 
 model Review {
-  id          Int      @id @default(autoincrement())
-  cratedAt    DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  review      String   @db.MediumText
-  cratedBy    User     @relation(name: "writtenReviews", fields: [cratedById], references: [id], onDelete: Cascade)
-  cratedById  Int
-  cratedFor   User     @relation(name: "receivedReviews", fields: [cratedForId], references: [id], onDelete: Cascade)
-  cratedForId Int
-  score       Int      @default(1)
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  review       String   @db.MediumText
+  createdBy    User     @relation(name: "writtenReviews", fields: [createdById], references: [id], onDelete: Cascade)
+  createdById  Int
+  createdFor   User     @relation(name: "receivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
+  createdForId Int
+  score        Int      @default(1)
 
-  @@index([cratedById])
-  @@index([cratedForId])
+  @@index([createdById])
+  @@index([createdForId])
 }
 
 model Sale {
@@ -119,7 +119,7 @@ model Sale {
   userId    Int
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
-  cratedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId])
@@ -132,7 +132,7 @@ model Purchase {
   userId    Int
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
-  cratedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId])
@@ -145,7 +145,7 @@ model Fav {
   userId    Int
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
-  cratedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId])

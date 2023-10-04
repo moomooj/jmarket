@@ -13,10 +13,10 @@ async function handler(
 
   const reviews = await client.review.findMany({
     where: {
-      cratedForId: user?.id,
+      createdForId: user?.id,
     },
     include: {
-      cratedBy: { select: { id: true, name: true, avatar: true } },
+      createdBy: { select: { id: true, name: true, avatar: true } },
     },
   });
 
