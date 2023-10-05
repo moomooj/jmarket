@@ -4,25 +4,64 @@ import Input from "@components/input";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import useMutation from "@libs/client/useMutation";
 
 interface EdiProfileForm {
   email?: string;
   phone?: string;
+  name?: string;
+  formErrors?: string;
+}
+
+interface EditProfileResponse {
+  ok: boolean;
+  error?: string;
 }
 
 const EditProfile: NextPage = () => {
   const { user } = useUser();
-  const { register } = useForm<EdiProfileForm>();
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<EdiProfileForm>();
+  useEffect(() => {
+    if (user?.email) setValue("email", user?.email);
+    if (user?.phone) setValue("phone", user?.phone);
+    if (user?.phone) setValue("name", user?.name);
+  }, [setValue, user]);
+
+  const [editProfile, { data, loading }] =
+    useMutation<EditProfileResponse>(`/api/users/me`);
+
+  const onValid = ({ email, phone, name }: EdiProfileForm) => {
+    if (loading) return;
+    if (email === "" && phone === "" && name === "") {
+      return setError("formErrors", {
+        message: "변경할 정보를 입력해주세요.",
+      });
+    }
+    editProfile({ email, phone, name });
+  };
+
+  useEffect(() => {
+    if (data && !data.ok && data.error) {
+      return setError("formErrors", { message: data.error });
+    }
+  }, [data, setError]);
   return (
     <Layout canGoBack title="Edit Profile">
-      <form className="space-y-4 px-4 py-10">
+      <form onSubmit={handleSubmit(onValid)} className="space-y-4 px-4 py-10">
         <div className="flex items-center space-x-3">
           <div className="h-14 w-14 rounded-full bg-slate-500" />
           <label
             htmlFor="picture"
             className="cursor-pointer rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
           >
-            Change
+            변경하기
             <input
               id="picture"
               type="file"
@@ -32,21 +71,34 @@ const EditProfile: NextPage = () => {
           </label>
         </div>
         <Input
+          register={register("name")}
+          required={false}
+          label="이름"
+          name="name"
+          type="text"
+        />
+        <Input
           register={register("email")}
-          required
-          label="Email address"
+          required={false}
+          label="이메일"
           name="email"
           type="email"
         />
+
         <Input
           register={register("phone")}
-          required
-          label="Phone number"
+          required={false}
+          label="전화번호"
           name="phone"
           type="number"
           kind="phone"
         />
-        <Button text="Update profile" />
+        {errors.formErrors ? (
+          <span className="my-2 block text-center font-medium text-red-500">
+            {errors.formErrors.message}
+          </span>
+        ) : null}
+        <Button text={loading ? "로딩중" : "수정하기"} />
       </form>
     </Layout>
   );
