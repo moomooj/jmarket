@@ -8,8 +8,16 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   if (req.method === "GET") {
-    const streams = await client.stream.findMany();
-    return res.json({ ok: true, streams });
+    const {
+      query: { page },
+    } = req;
+    const streamCount = await client.stream.count();
+    const streams = await client.stream.findMany({
+      take: 10,
+      skip: (Number(page) - 1) * 10,
+    });
+
+    res.json({ ok: true, streams, pages: Math.ceil(streamCount / 10) });
   } else if (req.method === "POST") {
     const {
       session: { user },

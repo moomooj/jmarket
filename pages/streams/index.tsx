@@ -2,20 +2,36 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import FloatingButton from "@components/floating-button";
 import Layout from "@components/layout";
-import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
 import { Stream } from "@prisma/client";
+import { useEffect, useState } from "react";
+import { useInfiniteScroll } from "@libs/client/useInfiniteScroll";
 
 interface StreamsResponse {
   ok: boolean;
   streams: Stream[];
+  pages: number;
 }
 
+const getKey = (pageIndex: number, previousPageData: StreamsResponse) => {
+  if (pageIndex === 0) return `/api/streams?page=1`;
+  if (pageIndex + 1 > previousPageData.pages) return null;
+  return `/api/streams?page=${pageIndex + 1}`;
+};
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 const Streams: NextPage = () => {
-  const { data, isLoading } = useSWR<StreamsResponse>(`/api/streams`);
+  const page = useInfiniteScroll();
+  const { data, setSize } = useSWRInfinite<StreamsResponse>(getKey, fetcher);
+  const streams = data ? data.map((item) => item.streams).flat() : [];
+  useEffect(() => {
+    setSize(page);
+  }, [setSize, page]);
+
   return (
     <Layout hasTabBar title="라이브">
       <div className=" space-y-4 divide-y-[1px]">
-        {data?.streams?.map((stream) => (
+        {streams.map((stream) => (
           <Link
             key={stream.id}
             href={`/streams/${stream.id}`}
