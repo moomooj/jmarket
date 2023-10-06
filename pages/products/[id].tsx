@@ -36,6 +36,7 @@ const ItemDetail: NextPage = () => {
       toggleFav({});
     }
   };
+  console.log(data);
 
   return (
     <Layout canGoBack>

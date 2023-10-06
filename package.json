@@ -18,7 +18,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.44.3",
-    "swr": "^2.2.2"
+    "swr": "^2.2.2",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.4.0",
@@ -33,5 +34,8 @@
     "prisma": "^4.15.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   }
 }

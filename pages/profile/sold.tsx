@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Item from "@components/item";
 import Layout from "@components/layout";
 import useSWR from "swr";
-import ProductList from "@components/priduct-list";
+import ProductList from "@components/product-list";
 
 const Sold: NextPage = () => {
   return (
