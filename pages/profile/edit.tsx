@@ -39,16 +39,31 @@ const EditProfile: NextPage = () => {
   const [editProfile, { data, loading }] =
     useMutation<EditProfileResponse>(`/api/users/me`);
 
-  const onValid = ({ email, phone, name, avatar }: EdiProfileForm) => {
-    console.log(avatar);
-    return;
+  const onValid = async ({ email, phone, name, avatar }: EdiProfileForm) => {
     if (loading) return;
     if (email === "" && phone === "" && name === "") {
       return setError("formErrors", {
         message: "변경할 정보를 입력해주세요.",
       });
     }
-    editProfile({ email, phone, name });
+
+    if (avatar && avatar.length > 0 && user) {
+      const { uploadURL } = await (await fetch(`/api/files`)).json();
+      const form = new FormData();
+      form.append("file", avatar[0], user.id + "");
+      const {
+        result: { id },
+      } = await (
+        await fetch(uploadURL, {
+          method: "POST",
+          body: form,
+        })
+      ).json();
+
+      editProfile({ email, phone, name, avatarId: id });
+    } else {
+      editProfile({ email, phone, name });
+    }
   };
 
   useEffect(() => {
@@ -74,6 +89,11 @@ const EditProfile: NextPage = () => {
             <img
               src={avatarPreview}
               className="h-14 w-14 rounded-full bg-slate-500"
+            />
+          ) : user?.avatar ? (
+            <img
+              src={`https://imagedelivery.net/BTgWdJ_97cUwmMLqEYlb5Q/${user?.avatar}/public`}
+              className="h-16 w-16 rounded-full bg-slate-500"
             />
           ) : (
             <div className="h-14 w-14 rounded-full bg-slate-500" />
