@@ -4,6 +4,7 @@ import Item from "../components/item";
 import Layout from "../components/layout";
 import useSWR from "swr";
 import { Product } from "@prisma/client";
+import Head from "next/head";
 
 export interface ProductWithCount extends Product {
   _count: {
@@ -21,6 +22,9 @@ const Home: NextPage = () => {
 
   return (
     <Layout title="홈" hasTabBar>
+      <Head>
+        <title>Home</title>
+      </Head>
       <div className="flex flex-col space-y-5 divide-y">
         {data?.products?.map((product) => (
           <Item

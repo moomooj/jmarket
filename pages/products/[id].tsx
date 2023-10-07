@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Product, User } from "@prisma/client";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
+import Image from "next/image";
 
 interface productWithUser extends Product {
   user: User;
@@ -36,15 +37,36 @@ const ItemDetail: NextPage = () => {
       toggleFav({});
     }
   };
-  console.log(data);
 
   return (
     <Layout canGoBack>
       <div className="px-4  py-4">
-        <div className="mb-8">
-          <div className="h-96 bg-slate-300" />
+        <div className="mb-8  items-center">
+          {data?.product.imageURL ? (
+            <div className="relative  pb-80">
+              <Image
+                fill
+                src={`https://imagedelivery.net/BTgWdJ_97cUwmMLqEYlb5Q/${data?.product.imageURL}/product`}
+                className="bg-slate-300 object-cover"
+                alt={data.product.name}
+              />
+            </div>
+          ) : (
+            <div className="h-96 w-full bg-slate-300" />
+          )}
+
           <div className="flex cursor-pointer items-center space-x-3 border-b border-t py-3">
-            <div className="h-12 w-12 rounded-full bg-slate-300" />
+            {data?.product.user.avatar ? (
+              <Image
+                width={48}
+                height={48}
+                src={`https://imagedelivery.net/BTgWdJ_97cUwmMLqEYlb5Q/${data?.product.user.avatar}/avatar`}
+                className="h-12 w-12 rounded-full bg-slate-300"
+                alt={"userAvatar"}
+              />
+            ) : (
+              <div className="h-12 w-12 rounded-full bg-slate-300" />
+            )}
             <div>
               <p className="text-sm font-medium text-gray-700">
                 {data?.product?.user?.name}
