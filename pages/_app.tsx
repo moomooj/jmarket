@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { SWRConfig } from "swr";
 import { useRouter } from "next/router";
+import Script from "next/script";
 
 function MyApp({ Component, pageProps }: AppProps) {
   function LoginCheck() {

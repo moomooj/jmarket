@@ -12,14 +12,18 @@
     "@prisma/client": "^4.15.0",
     "@types/nodemailer": "^6.4.8",
     "@types/react-dom": "18.2.4",
+    "gray-matter": "^4.0.3",
     "iron-session": "^6.3.1",
     "next": "13.4.4",
     "nodemailer": "^6.9.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.44.3",
+    "remark-html": "^16.0.1",
+    "remark-parse": "^11.0.0",
     "swr": "^2.2.2",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "unified": "^11.0.3"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.4.0",
