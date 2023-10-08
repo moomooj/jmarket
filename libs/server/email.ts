@@ -8,9 +8,7 @@ const smtpTransport = nodemailer.createTransport({
     user: process.env.MAIL_ID,
     pass: process.env.MAIL_PASSWORD,
   },
-  tls: {
-    rejectUnauthorized: false,
-  },
+  secure: true,
 });
 
 export default smtpTransport;

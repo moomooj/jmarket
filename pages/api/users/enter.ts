@@ -68,14 +68,17 @@ async function handler(
       text: `인증번호 : ${payload}`,
     };
 
-    await smtpTransport.sendMail(mailOptions, (error, responses) => {
-      if (error) {
-        return null;
-      } else {
-        return null;
-      }
+    await new Promise((resolve, reject) => {
+      smtpTransport.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          console.log(info);
+          resolve(info);
+        }
+      });
     });
-    smtpTransport.close();
   }
 
   return res.json({ ok: true });
