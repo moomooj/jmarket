@@ -48,7 +48,7 @@ const Enter: NextPage = () => {
 
   const onTokenValid = (validForm: TokenForm) => {
     if (tokenLoading) return;
-    console.log(validForm);
+
     confirmToken(validForm);
   };
 
@@ -58,8 +58,6 @@ const Enter: NextPage = () => {
       router.push("/");
     }
   }, [router, tokenData]);
-
-  console.log(tokenData);
 
   return (
     <div className="mt-16 px-4">
