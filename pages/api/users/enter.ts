@@ -61,7 +61,6 @@ async function handler(
       console.error(err.response.data);
     });*/
   } else if (email) {
-    console.log(email);
     const mailOptions = {
       from: `${process.env.MAIL_ID}@naver.com`,
       to: email,
@@ -71,16 +70,12 @@ async function handler(
 
     await smtpTransport.sendMail(mailOptions, (error, responses) => {
       if (error) {
-        console.log("error : ", error);
         return null;
       } else {
-        console.log("responses : ", responses);
         return null;
       }
     });
     smtpTransport.close();
-    console.log("메일 옵션 :", mailOptions);
-    console.log("전송된거 맞음?");
   }
 
   return res.json({ ok: true });
