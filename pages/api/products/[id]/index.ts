@@ -33,6 +33,11 @@ async function handler(
         },
       },
     },
+    select: {
+      id: true,
+      name: true,
+      price: true,
+    },
   });
   const isLiked = Boolean(
     await client.fav.findFirst({

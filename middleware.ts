@@ -10,6 +10,7 @@ export const config = {
 };
 
 export function middleware(request: NextRequest, event: NextFetchEvent) {
+  /*
   if (request.nextUrl.pathname.startsWith("/")) {
     const { isBot } = userAgent(request);
     if (isBot) {
@@ -23,5 +24,5 @@ export function middleware(request: NextRequest, event: NextFetchEvent) {
         return NextResponse.redirect(new URL("/enter", request.url));
       }
     }
-  }
+  }*/
 }

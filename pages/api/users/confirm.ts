@@ -14,7 +14,11 @@ async function handler(
     },
   });
 
-  if (!foundToken) return res.status(404).end();
+  if (!foundToken) {
+    return res
+      .status(404)
+      .json({ ok: false, error: "인증번호가 잘못되었습니다." });
+  }
 
   req.session.user = {
     id: foundToken.userId,

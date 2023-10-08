@@ -22,7 +22,7 @@ async function handler(
             ...user,
           },
           create: {
-            name: "Anonymous",
+            name: "사용자",
             ...user,
           },
         },
@@ -31,7 +31,7 @@ async function handler(
   });
 
   if (phone) {
-    /*
+    /* 네이버 인증번호
     const signature = makeSignature();
 
     const body = {
@@ -61,25 +61,21 @@ async function handler(
       console.error(err.response.data);
     });*/
   } else if (email) {
-    /*
     const mailOptions = {
       from: `${process.env.MAIL_ID}@naver.com`,
       to: email,
-      subject: "Nomad Carrot Authentication Email",
-      text: `Authentication Code : ${payload}`,
+      subject: "제이마켓 인증번호",
+      text: `인증번호 : ${payload}`,
     };
 
-    const result = await smtpTransport.sendMail(
-      mailOptions,
-      (error, responses) => {
-        if (error) {
-          return null;
-        } else {
-          return null;
-        }
+    smtpTransport.sendMail(mailOptions, (error, responses) => {
+      if (error) {
+        return null;
+      } else {
+        return null;
       }
-    );
-    smtpTransport.close();*/
+    });
+    smtpTransport.close();
   }
 
   return res.json({ ok: true });

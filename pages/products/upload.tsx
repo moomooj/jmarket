@@ -8,7 +8,6 @@ import useMutation from "@libs/client/useMutation";
 import { useEffect, useState } from "react";
 import { Product } from "@prisma/client";
 import { useRouter } from "next/router";
-import useUser from "@libs/client/useUser";
 
 interface UploadProductFrom {
   name: string;
@@ -23,6 +22,7 @@ interface UploadProductMutation {
 }
 
 const Upload: NextPage = () => {
+  const [btnLoading, setBtnLoading] = useState(false);
   const router = useRouter();
   const [uploadProduct, { loading, data }] =
     useMutation<UploadProductMutation>("/api/products");
@@ -35,7 +35,7 @@ const Upload: NextPage = () => {
     photo,
   }: UploadProductFrom) => {
     if (loading) return;
-
+    setBtnLoading(true);
     if (photo && photo.length > 0) {
       const { uploadURL } = await (await fetch(`/api/files`)).json();
       const form = new FormData();
@@ -53,6 +53,7 @@ const Upload: NextPage = () => {
     } else {
       uploadProduct({ name, price, description });
     }
+    setBtnLoading(false);
   };
 
   useEffect(() => {
@@ -71,7 +72,7 @@ const Upload: NextPage = () => {
     }
   }, [photo]);
   return (
-    <Layout canGoBack title="Upload Product">
+    <Layout canGoBack title="상품 업로드">
       <form className="space-y-4 p-4" onSubmit={handleSubmit(onValid)}>
         <div>
           {photoPreview ? (
@@ -108,14 +109,14 @@ const Upload: NextPage = () => {
         <Input
           register={register("name", { required: true })}
           required
-          label="Name"
+          label="상품 이름"
           name="name"
           type="text"
         />
         <Input
           register={register("price", { required: true })}
           required
-          label="Price"
+          label="가격"
           placeholder="0.00"
           name="price"
           type="text"
@@ -124,10 +125,13 @@ const Upload: NextPage = () => {
         <TextArea
           register={register("description", { required: true })}
           name="description"
-          label="Description"
+          label="상품 설명"
           required
         />
-        <Button text={loading ? "로딩 중" : "상품을 업로드 하세요"} />
+        <Button
+          text={loading ? "로딩 중" : "상품 업로드"}
+          disabled={btnLoading ? true : loading ? true : false}
+        />
       </form>
     </Layout>
   );

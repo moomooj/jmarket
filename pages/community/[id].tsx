@@ -87,7 +87,15 @@ const CommunityPostDetail: NextPage = () => {
           동네질문
         </span>
         <div className="mb-3 flex cursor-pointer items-center space-x-3  border-b px-4 pb-3">
-          <div className="h-10 w-10 rounded-full bg-slate-300" />
+          {data?.post.user.avatar ? (
+            <img
+              src={`https://imagedelivery.net/BTgWdJ_97cUwmMLqEYlb5Q/${data?.post.user.avatar}/avatar`}
+              alt={data.post.user.name}
+              className="h-10 w-10 rounded-full bg-slate-300"
+            />
+          ) : (
+            <div className="h-10 w-10 rounded-full bg-slate-300" />
+          )}
 
           <div>
             <p className="text-sm font-medium text-gray-700">
@@ -151,7 +159,16 @@ const CommunityPostDetail: NextPage = () => {
         <div className="my-5 space-y-5 px-4">
           {data?.post?.answers?.map((answer) => (
             <div className="flex items-start space-x-3" key={answer.id}>
-              <div className="h-8 w-8 rounded-full bg-slate-200" />
+              {answer.user.avatar ? (
+                <img
+                  src={`https://imagedelivery.net/BTgWdJ_97cUwmMLqEYlb5Q/${data?.post.user.avatar}/avatar`}
+                  alt={data.post.user.name}
+                  className="h-10 w-10 rounded-full bg-slate-300"
+                />
+              ) : (
+                <div className="h-8 w-8 rounded-full bg-slate-400" />
+              )}
+
               <div>
                 <span className="block text-sm font-medium text-gray-700">
                   {answer.user.name}
@@ -167,12 +184,12 @@ const CommunityPostDetail: NextPage = () => {
         <form onSubmit={handleSubmit(onVaild)} className="px-4">
           <TextArea
             name="description"
-            placeholder="Answer this question!!"
+            placeholder="질문에 답변해 주세요!"
             register={register("answer", { required: true, minLength: 10 })}
             required
           />
           <button className="mt-2 w-full rounded-md border border-transparent bg-orange-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ">
-            {answerLoading ? "Loading.." : "Reply"}
+            {answerLoading ? "Loading.." : "답변하기"}
           </button>
         </form>
       </div>

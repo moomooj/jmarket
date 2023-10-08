@@ -18,7 +18,7 @@ interface ProductsResponse {
 }
 
 const Home: NextPage = () => {
-  const { data } = useSWR<ProductsResponse>("/api/products");
+  const { data, isLoading } = useSWR<ProductsResponse>("/api/products");
 
   return (
     <Layout title="홈" hasTabBar>
@@ -33,6 +33,7 @@ const Home: NextPage = () => {
             title={product.name}
             price={product.price}
             hearts={product._count.favs}
+            picture={product.imageURL}
           />
         ))}
         <FloatingButton href="/products/upload">

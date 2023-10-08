@@ -49,6 +49,7 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({
       </Layout>
     );
   }
+
   return (
     <Layout canGoBack>
       <div className="px-4  py-4">
@@ -86,7 +87,7 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({
                 href={`/users/profiles/${product?.user?.id}`}
                 className="text-xs font-medium text-gray-500"
               >
-                View profile &rarr;
+                프로필보기 &rarr;
               </Link>
             </div>
           </div>
@@ -99,7 +100,7 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({
             </span>
             <p className=" my-6 text-gray-700">{product?.description}</p>
             <div className="flex items-center justify-between space-x-2">
-              <Button large text="Talk to seller" />
+              <Button large text="판매자와 채팅하기" />
               <button
                 onClick={onFavClick}
                 className={cls(
@@ -144,12 +145,21 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({
           </div>
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Similar items</h2>
+          <h2 className="text-2xl font-bold text-gray-900">비슷한 상품</h2>
           <div className=" mt-6 grid grid-cols-2 gap-4">
             {relatedProducts?.map((product) => (
               <Link href={`/products/${product.id}`} key={product.id}>
                 <div>
-                  <div className="mb-4 h-56 w-full bg-slate-300" />
+                  {product.imageURL ? (
+                    <img
+                      src={`https://imagedelivery.net/BTgWdJ_97cUwmMLqEYlb5Q/${product.imageURL}/product`}
+                      className="bg-slate-300 object-cover"
+                      alt={product.name}
+                    />
+                  ) : (
+                    <div className="mb-4 h-56 w-full bg-slate-300" />
+                  )}
+
                   <h3 className="-mb-1 text-gray-700">{product.name}</h3>
                   <span className="text-sm font-medium text-gray-900">
                     ${product.price}
