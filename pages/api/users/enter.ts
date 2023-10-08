@@ -68,10 +68,12 @@ async function handler(
       text: `인증번호 : ${payload}`,
     };
 
-    smtpTransport.sendMail(mailOptions, (error, responses) => {
+    await smtpTransport.sendMail(mailOptions, (error, responses) => {
       if (error) {
+        console.log("error : ", error);
         return null;
       } else {
+        console.log("responses : ", responses);
         return null;
       }
     });
