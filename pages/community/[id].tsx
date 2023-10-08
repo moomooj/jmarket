@@ -67,6 +67,7 @@ const CommunityPostDetail: NextPage = () => {
       wonder({});
     }
   };
+  console.log(data);
 
   const onVaild = (from: AnswerForm) => {
     if (answerLoading) return;
