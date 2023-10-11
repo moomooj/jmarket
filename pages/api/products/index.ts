@@ -7,11 +7,6 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const {
-    body: { name, price, description, photoId },
-    session: { user },
-  } = req;
-
   if (req.method === "GET") {
     const products = await client.product.findMany({
       include: {
@@ -27,6 +22,11 @@ async function handler(
   }
 
   if (req.method === "POST") {
+    const {
+      body: { name, price, description, photoId },
+      session: { user },
+    } = req;
+
     const product = await client.product.create({
       data: {
         name,
