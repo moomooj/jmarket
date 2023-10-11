@@ -4,7 +4,7 @@ import Item from "../components/item";
 import Layout from "../components/layout";
 import useSWR, { SWRConfig } from "swr";
 import { Product } from "@prisma/client";
-import Head from "next/head";
+import Products from "@components/skeleton/productsSlt";
 
 export interface ProductWithCount extends Product {
   _count: {
@@ -19,23 +19,22 @@ interface ProductsResponse {
 
 const Home: NextPage = () => {
   const { data, isLoading } = useSWR<ProductsResponse>("/api/products");
-
   return (
     <Layout title="홈" hasTabBar>
-      <Head>
-        <title>Home</title>
-      </Head>
       <div className="flex flex-col space-y-5 divide-y">
-        {data?.products?.map((product) => (
-          <Item
-            id={product.id}
-            key={product.id}
-            title={product.name}
-            price={product.price}
-            hearts={product._count.favs}
-            picture={product.imageURL}
-          />
-        ))}
+        {isLoading
+          ? [1, 2, 3, 4, 5].map((i) => <Products key={i} />)
+          : data?.products?.map((product) => (
+              <Item
+                id={product.id}
+                key={product.id}
+                title={product.name}
+                price={product.price}
+                hearts={product._count.favs}
+                picture={product.imageURL}
+              />
+            ))}
+
         <FloatingButton href="/products/upload">
           <svg
             className="h-6 w-6"

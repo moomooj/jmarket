@@ -37,6 +37,7 @@ async function handler(
       id: true,
       name: true,
       price: true,
+      imageURL: true,
     },
   });
   const isLiked = Boolean(

@@ -26,8 +26,6 @@ async function handler(
       },
     });
 
-    await res.revalidate("/community");
-
     return res.json({ ok: true, post });
   }
 
@@ -35,37 +33,59 @@ async function handler(
     const {
       query: { latitude, longitude },
     } = req;
-    if (latitude === undefined || longitude === undefined) return;
-    const parsedLatitude = parseFloat(latitude.toString());
-    const parsedLongitue = parseFloat(longitude.toString());
-    const posts = await client.post.findMany({
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            avatar: true,
+
+    if (latitude && longitude) {
+      const parsedLatitude = parseFloat(latitude.toString());
+      const parsedLongitue = parseFloat(longitude.toString());
+      const posts = await client.post.findMany({
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          },
+          _count: {
+            select: {
+              wondering: true,
+              answers: true,
+            },
           },
         },
-        _count: {
-          select: {
-            wondering: true,
-            answers: true,
+        where: {
+          latitude: {
+            gte: parsedLatitude - 0.01,
+            lte: parsedLatitude + 0.01,
+          },
+          longitude: {
+            gte: parsedLongitue - 0.01,
+            lte: parsedLongitue + 0.01,
           },
         },
-      },
-      where: {
-        latitude: {
-          gte: parsedLatitude - 0.01,
-          lte: parsedLatitude + 0.01,
+      });
+
+      return res.json({ ok: true, posts });
+    } else {
+      const posts = await client.post.findMany({
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          },
+          _count: {
+            select: {
+              wondering: true,
+              answers: true,
+            },
+          },
         },
-        longitude: {
-          gte: parsedLongitue - 0.01,
-          lte: parsedLongitue + 0.01,
-        },
-      },
-    });
-    return res.json({ ok: true, posts });
+      });
+      return res.json({ ok: true, posts });
+    }
   }
 }
 

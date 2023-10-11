@@ -1,6 +1,6 @@
-## 당근마켓 클론코딩 Jmarket 입니다.
+# 당근마켓 클론코딩 Jmarket 입니다.
 
-##사용 플랫폼
+## 사용 플랫폼
 
 1. 네이버 SENS (문자인증)
 2. cloudeflare (이미지)
@@ -13,25 +13,31 @@ next-js
 
 ## 사용 라이브러리
 
-- Css
-  tailwindcss
+### Css
 
-- Form
-  react-hook-form
+- tailwindcss
 
-- Typescript ORM
-  prisma
+### Form
 
-- Email
-  nodemailer
+- react-hook-form
 
-- verification
-  iron-session
+### Typescript ORM
 
-- data fetching
-  swr
+- prisma
 
-- etc
+### Email
+
+- nodemailer
+
+### verification
+
+- iron-session
+
+### data fetching
+
+- swr
+
+### etc
 
 1. gray-matter
 2. remark-html
@@ -39,19 +45,20 @@ next-js
 4. ts-node
 5. unified
 
-제작 진행도 (완료 : ✅, 진행중 : 🔼 ) , 이슈(🅾️)  
-"/" : ✅ (2023.10.08 완)
-"/products/upload" : ✅ (2023.10.08 완)
-"/products/[id]" : 채팅하기, 🔼 , 🅾️ 하트모양 클릭 시 css적용 안됨 (SSR 이슈)
+## 제작 진행도 (완료 : ✅, 진행중 : 🔼 ) , 이슈(🅾️)
 
-"/community": ✅ (2023.10.08 완)
-"/community/write": ✅ (2023.10.08 완)
+"/" : ✅ (2023.10.08 완) <br/>
+"/products/upload" : ✅ (2023.10.08 완) <br/>
+"/products/[id]" : 채팅하기, 🔼 , 🅾️ 하트모양 클릭 시 css적용 안됨 (SSR 이슈) <br/><br/>
 
-"/chats" : 🔼
+"/community": ✅ (2023.10.08 완) <br/>
+"/community/write": ✅ (2023.10.08 완) <br/><br/>
 
-"/streams" : 🔼 cloudeflare live api 한달에 35$ 지불로 인해 제작 중지
+"/chats" : 🔼 <br/><br/>
 
-"/profile" : 🔼 리뷰 컴포넌트 제작 필요
-"/profile/sold" 🔼 빈 div 이미지로 교체
-"/profile/bought" 🔼 빈 div 이미지로 교체
-"/profile/loved" 🔼 빈 div 이미지로 교체
+"/streams" : 🔼 cloudeflare live api 한달에 35$ 지불로 인해 제작 중지 <br/><br/>
+
+"/profile" : 🔼 리뷰 컴포넌트 제작 필요 <br/>
+"/profile/sold" 🔼 빈 div 이미지로 교체 <br/>
+"/profile/bought" 🔼 빈 div 이미지로 교체 <br/>
+"/profile/loved" 🔼 빈 div 이미지로 교체 <br/>

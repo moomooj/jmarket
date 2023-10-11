@@ -21,7 +21,7 @@ const Profile: NextPage = () => {
   const { data } = useSWR<ReviewsResponse>(`/api/reviews`);
 
   return (
-    <Layout hasTabBar title="나의 캐럿">
+    <Layout hasTabBar title="마이페이지">
       <div className="px-4">
         <div className="mt-4 flex items-center space-x-3">
           {user?.avatar ? (
@@ -36,7 +36,7 @@ const Profile: NextPage = () => {
           <div className="flex flex-col">
             <span className="font-medium text-gray-900">{user?.name}</span>
             <Link href="/profile/edit" className="text-sm text-gray-700">
-              Edit profile &rarr;
+              프로필 수정하기 &rarr;
             </Link>
           </div>
         </div>
