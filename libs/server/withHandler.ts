@@ -12,21 +12,13 @@ interface ConfigType {
   isPrivate?: boolean;
 }
 
-export default function withHandler({
-  methods,
-  handler,
-  isPrivate = true,
-}: ConfigType) {
+export default function withHandler({ methods, handler }: ConfigType) {
   return async function (
     req: NextApiRequest,
     res: NextApiResponse
   ): Promise<any> {
     if (req.method && !methods.includes(req.method as any)) {
       return res.status(405).end();
-    }
-
-    if (isPrivate && !req.session.user) {
-      return res.status(401).json({ ok: false, error: " 로그인 해주세요" });
     }
     try {
       await handler(req, res);

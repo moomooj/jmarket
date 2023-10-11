@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import FloatingButton from "../components/floating-button";
 import Item from "../components/item";
 import Layout from "../components/layout";
-import useSWR, { SWRConfig } from "swr";
+import useSWR from "swr";
 import { Product } from "@prisma/client";
 import Products from "@components/skeleton/productsSlt";
 
